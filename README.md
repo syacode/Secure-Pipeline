@@ -5,3 +5,5 @@
 # Creating git repo - Check
 # Create pipeline - progression
 
+More to learn let gooo
+
