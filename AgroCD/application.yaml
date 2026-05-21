@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-first-gitops-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # A public example repository provided by the ArgoCD team
+    repoURL: 'https://github.com/argoproj/argocd-example-apps.git'
+    targetRevision: HEAD
+    # The specific folder in the repo containing the Kubernetes YAMLs
+    path: guestbook
+  destination:
+    # This URL refers to the cluster ArgoCD is currently installed on
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
