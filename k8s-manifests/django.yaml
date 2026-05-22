@@ -17,7 +17,7 @@ spec:
       containers:
       - name: django-app
         # REPLACE THIS WITH YOUR ACTUAL DJANGO DOCKER IMAGE
-        image: Syacode/django-app:latest 
+        image: syacode/django-app:latest 
         ports:
         - containerPort: 8000
         env:
@@ -35,7 +35,7 @@ kind: Service
 metadata:
   name: django-service
 spec:
-  type: Nodeport # Use NodePort if running locally on Minikube
+  type: LoadBalancer # Use NodePort if running locally on Minikube
   ports:
   - port: 80
     targetPort: 8000
