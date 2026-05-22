@@ -50,4 +50,4 @@ jobs:
           # Commit and push the changes back to the main branch
           git add k8s/deployment.yaml
           git commit -m "chore: update image tag to ${{ github.sha }} [skip ci]"
-          git push origin main
+          git push origin pipeline
