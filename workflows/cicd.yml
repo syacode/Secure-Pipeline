@@ -45,9 +45,9 @@ jobs:
           
           # Use 'sed' to find the old image and replace it with the new one
           # Ensure the file path matches where your deployment.yaml is stored
-          sed -i "s|image: your-docker-username/your-app:.*|image: your-docker-username/your-app:${{ github.sha }}|g" k8s/deployment.yaml
+          sed -i "s|image: syacode/django-app:.*|image: syacode/django-app:${{ github.sha }}|g" k8s-manifests/django.yaml
           
           # Commit and push the changes back to the main branch
-          git add k8s/deployment.yaml
+          git add k8s-manifests/django.yaml
           git commit -m "chore: update image tag to ${{ github.sha }} [skip ci]"
           git push origin main
