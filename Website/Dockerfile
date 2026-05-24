@@ -13,9 +13,9 @@ WORKDIR /app
 # Install system dependencies required for mysqlclient and other packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       gcc \
-       default-libmysqlclient-dev \
-       pkg-config \
+        gcc \
+        default-libmysqlclient-dev \
+        pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file and install dependencies
@@ -30,6 +30,5 @@ COPY . /app/
 EXPOSE 8000
 
 # Command to run the application using Gunicorn
-# IMPORTANT: Replace "myproject.wsgi:application" with the actual name 
-# of your project's main folder (where wsgi.py lives).
+# IMPORTANT: Replace "Website.wsgi:application" with your actual config if needed
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "Website.wsgi:application"]
