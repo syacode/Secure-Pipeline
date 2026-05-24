@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-local-gitops-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # REPLACE with your actual GitHub repository URL
+    repoURL: 'https://github.com/syacode/Secure-Pipeline.git'
+    targetRevision: pipeline
+    # The folder in your repo where 'deployment.yaml' is located
+    path: k8s-manifests
+  destination:
+    # Deploys to the local cluster where ArgoCD is running
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      # Automatically delete old resources and heal drift
+      prune: true
+      selfHeal: true
