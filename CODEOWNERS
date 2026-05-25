@@ -1,0 +1,13 @@
+# Lines starting with '#' are comments.
+
+# 1. Global owner: Provide a default owner for everything in the repo
+* @global-owner-syacode
+
+# 2. Specific file extension: Assign all JavaScript files to a specific team
+*.js    @my-org/frontend-team
+
+# 3. Specific directory: Assign the entire docs folder to a user and an email
+/docs/  @writer-username docs-team@example.com
+
+# 4. Specific file: Assign a single critical file to multiple people
+/config/settings.yml  @admin1 @admin2
