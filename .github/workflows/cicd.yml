@@ -16,7 +16,7 @@ jobs:
     steps:
       # Step 1: Clone the repository
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         # We don't strictly need fetch-depth: 0 if we use the PR action, but it's safe to leave
 
       # Step 2: Authenticate with DockerHub
