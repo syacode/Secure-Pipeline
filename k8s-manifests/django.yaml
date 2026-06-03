@@ -17,7 +17,7 @@ spec:
       containers:
       - name: django-app
         # REPLACE THIS WITH YOUR ACTUAL DJANGO DOCKER IMAGE
-        image: syacode/django-app:08fb047e0f4fccc75737a59556cad8659d3406f6
+        image: syacode/django-app:69ebd90f66a4f223ff7d4194a70fc71aae7fcd62
         ports:
         - containerPort: 8000
         env:
