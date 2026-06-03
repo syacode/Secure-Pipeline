@@ -4,9 +4,10 @@ on:
   push:
     branches: [ "pipeline" ]
 
-# Set permissions to allow the Action to commit back to the repo
+# Set permissions to allow the Action to commit and open PRs
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build-and-update-manifest:
@@ -16,9 +17,7 @@ jobs:
       # Step 1: Clone the repository
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          # Fetches the full history so we can push commits later
-          fetch-depth: 0 
+        # We don't strictly need fetch-depth: 0 if we use the PR action, but it's safe to leave
 
       # Step 2: Authenticate with DockerHub
       - name: Log in to DockerHub
@@ -31,23 +30,23 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./Website
+          context: .
           push: true
-          # REPLACE 'your-docker-username/your-app' with your actual details
           tags: syacode/django-app:${{ github.sha }}
 
-      # Step 4: Update the Kubernetes manifest and commit the change
+      # Step 4: Update the Kubernetes manifest locally
       - name: Update Kubernetes Manifest
         run: |
-          # Configure Git 
-          git config --global user.name 'GitHub Actions Automaton'
-          git config --global user.email 'actions@github.com'
-          
           # Use 'sed' to find the old image and replace it with the new one
           # Ensure the file path matches where your deployment.yaml is stored
           sed -i "s|image: syacode/django-app:.*|image: syacode/django-app:${{ github.sha }}|g" k8s-manifests/django.yaml
           
-          # Commit and push the changes back to the main branch
-          git add k8s-manifests/django.yaml
-          git commit -m "chore: update image tag to ${{ github.sha }} [skip ci]"
-          git push origin pipeline
+      # Step 5: Create a Pull Request to bypass the direct push restriction
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: update image tag to ${{ github.sha }} [skip ci]"
+          branch: "bot/update-image-${{ github.sha }}"
+          title: "Update Django app image to ${{ github.sha }}"
+          body: "Automated PR from GitHub Actions to update the Kubernetes manifest with the latest built image tag."
+          base: pipeline # Change to 'main' if you want the PR to merge into main instead
