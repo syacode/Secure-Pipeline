@@ -30,7 +30,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./Website
           push: true
           tags: syacode/django-app:${{ github.sha }}
 
