@@ -3,7 +3,7 @@ name: "Terraform Deployment via Vault"
 on:
   push:
     branches:
-      - main
+      - AWS-Terraform
 
 permissions:
   id-token: write # Required to fetch JWT from GitHub OIDC provider
