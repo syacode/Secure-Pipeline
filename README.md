@@ -11,6 +11,16 @@ Github + AgroCD + Django App - Done
 # 22/5/2026 - 3rd Day DevSecOps
 Github Pipeline CI/CD via AgroCD - Done
 
-# 24/5/2026 = 4th Day DevSecOps
+# 24/5/2026 - 4th Day DevSecOps
  ##add env for Django - pip ##
  Secure Pipeline using gitleak
+
+#3/6/2026 - 5th Day DevSecOps
+gitleak-github action
+chekov
+depandabot
+Setup for vault 
+
+#4/6/2026
+
+trying terraform in ec2
