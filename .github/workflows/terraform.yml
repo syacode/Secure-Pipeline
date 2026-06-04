@@ -1,0 +1,53 @@
+name: "Terraform Deployment via Vault"
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write # Required to fetch JWT from GitHub OIDC provider
+  contents: read  # Required to check out the repository code
+
+jobs:
+  deploy:
+    name: "Terraform Apply"
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Authenticate with Vault via OIDC & Fetch AWS Credentials
+      - name: Fetch Secrets from Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: ${{ secrets.VAULT_ADDR }}
+          role: github-actions-role
+          method: jwt
+          secrets: |
+            secret/data/aws access_key | AWS_ACCESS_KEY_ID ;
+            secret/data/aws secret_key | AWS_SECRET_ACCESS_KEY
+
+      # Step 3: Install and set up Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      # Step 4: Initialize Terraform working directory
+      - name: Terraform Init
+        run: terraform init
+
+      # Step 5: Check structural and visual formatting compliance
+      - name: Terraform Format Validate
+        run: terraform fmt -check
+
+      # Step 6: Generate a execution plan
+      - name: Terraform Plan
+        run: terraform plan
+
+      # Step 7: Apply the configurations to provision the Free Tier EC2
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
