@@ -14,7 +14,10 @@ jobs:
     name: "Terraform Apply"
     # MODIFIED: This tells GitHub to look for your WSL runner
     runs-on: self-hosted
-
+# ADDED: This forces all 'run' commands to execute inside the Terraform folder
+    defaults:
+      run:
+        working-directory: ./Terraform
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
