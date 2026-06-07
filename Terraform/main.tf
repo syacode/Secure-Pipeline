@@ -46,8 +46,8 @@ resource "aws_security_group" "k3s_sg" {
 # 3. Free Tier EC2 Instance with User Data for K3s & ArgoCD
 resource "aws_instance" "free_tier_vm" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro" 
-  
+  instance_type = "t2.micro"
+
   # Attach the security group
   vpc_security_group_ids = [aws_security_group.k3s_sg.id]
 
