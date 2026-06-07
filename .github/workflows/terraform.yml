@@ -1,0 +1,51 @@
+name: "Terraform Deployment via Vault"
+
+on:
+  push:
+    branches:
+      - AWS-Terraform
+
+permissions:
+  id-token: write 
+  contents: read  
+
+jobs:
+  deploy:
+    name: "Terraform Apply"
+    # MODIFIED: This tells GitHub to look for your WSL runner
+    runs-on: self-hosted
+# ADDED: This forces all 'run' commands to execute inside the Terraform folder
+    defaults:
+      run:
+        working-directory: ./Terraform
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Fetch Secrets from Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: ${{ secrets.VAULT_ADDR }}
+          role: github-actions-role
+          method: jwt
+          secrets: |
+            secret/data/aws access_key | AWS_ACCESS_KEY_ID ;
+            secret/data/aws secret_key | AWS_SECRET_ACCESS_KEY
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Terraform Init
+        working-directory: ./Terraform  # Point this to the folder containing main.tf
+        run: terraform init
+
+      - name: Terraform Format Validate
+        run: terraform fmt -check
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
