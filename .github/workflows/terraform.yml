@@ -33,7 +33,7 @@ jobs:
             secret/data/aws secret_key | AWS_SECRET_ACCESS_KEY
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "1.7.0"
 
