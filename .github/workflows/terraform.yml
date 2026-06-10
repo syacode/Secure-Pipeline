@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Fetch Secrets from Vault
-        uses: hashicorp/vault-action@v3
+        uses: hashicorp/vault-action@v4
         with:
           url: ${{ secrets.VAULT_ADDR }}
           role: github-actions-role
