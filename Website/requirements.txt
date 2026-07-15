@@ -1,4 +1,4 @@
-asgiref==3.11.1
+asgiref==3.12.1
 Django==6.0.5
 gunicorn==26.0.0
 mysqlclient==2.2.8
