@@ -2,6 +2,6 @@ asgiref==3.11.1
 Django==6.0.5
 gunicorn==26.0.0
 mysqlclient==2.2.8
-packaging==26.2
+packaging==26.3
 python-dotenv==1.2.2
 sqlparse==0.5.5
